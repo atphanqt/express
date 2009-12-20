@@ -93,7 +93,17 @@ describe 'Express'
       end
     end
     
-    describe 'with a placeholder'
+    describe 'with regular expression'
+      it 'should match'
+        get(/^\/user\/(\d+)\/(\w+)/, function(id, operation){
+          return [id, operation].join(', ')
+        })
+        get('/user/12/edit').body.should.eql '12, edit'
+        get('/user/12').status.should.eql 404
+      end
+    end
+    
+    describe 'with a wild-card'
       it 'should still match'
         get('/user/:id', function(){ return 'yay' })
         get('/user/12').body.should.eql 'yay'
@@ -112,7 +122,7 @@ describe 'Express'
       end
     end
     
-    describe 'with several placeholders'
+    describe 'with several wild-cards'
       it 'should still match'
         get('/user/:id/:op', function(){ return 'yay' })
         get('/user/12/edit').body.should.eql 'yay'
@@ -126,7 +136,7 @@ describe 'Express'
       end
     end
     
-    describe 'with an optional placeholder'
+    describe 'with an optional wild-card'
       it 'should match with a value'
         get('/user/:id?', function(){ return 'yay' })
         get('/user/1').body.should.eql 'yay'
@@ -149,9 +159,22 @@ describe 'Express'
         get('/user/:id?', function(){ return 'yay' })
         get('/user/12/edit').body.should.eql 'Not Found'
       end
+      
+      it 'should match without leading character'
+        get('/report.:format?', function(format){ return format || 'none' })
+        get('/report.csv').body.should.eql 'csv'
+        get('/report').body.should.eql 'none'
+      end
+      
+      it 'should allow common regexp literals'
+        get('/user/(\\d+)', function(id){ return id })
+        get('/user/12').body.should.eql '12'
+        get('/user/asdf').status.should.eql 404
+      end
+      
     end
     
-    describe 'with partial placeholder'
+    describe 'with partial wild-card'
       it 'should still match'
         get('/report.:format', function(){
           return 'yay'
@@ -165,6 +188,63 @@ describe 'Express'
           return 'yay'
         })
         get('/report.').body.should.eql 'Not Found'
+      end
+    end
+    
+    describe 'with a single splat'
+      it 'should match a single segment'
+        get('/public/*', function(file){
+          return file
+        })
+        get('/public/app.js').body.should.eql 'app.js'
+      end
+      
+      it 'should not match when there is nothing to capture'
+        get('/public/*', function(file){
+          return file
+        })
+        get('/public/').status.should.eql 404
+        get('/public').status.should.eql 404
+      end
+      
+      it 'should match a multiple segments'
+        get('/public/*', function(file){
+          return file
+        })
+        get('/public/javascripts/app.js').body.should.eql 'javascripts/app.js'
+      end
+    end
+    
+    describe 'with several splats'
+      it 'should greedily match'
+        get('/public/*.*', function(path, ext){
+          return 'path: ' + path + ' ext: ' + ext
+        })
+        get('/public/app.js').body.should.eql 'path: app ext: js'
+      end
+      
+      it 'should not match when there is nothing to capture'
+        get('/public/*.*', function(file){
+          return file
+        })
+        get('/public/foo.').status.should.eql 404
+        get('/public/foo').status.should.eql 404
+        get('/public/').status.should.eql 404
+        get('/public').status.should.eql 404
+      end
+      
+      it 'should greedily match several segments'
+        get('/public/*.*', function(path, ext){
+          return 'path: ' + path + ' ext: ' + ext
+        })
+        get('/public/javascripts/app.js').body.should.eql 'path: javascripts/app ext: js'
+      end
+      
+      it 'should greedily match several segments'
+        get('/public/*/*.*', function(dir, path, ext){
+          return 'dir: ' + dir + ' path: ' + path + ' ext: ' + ext
+        })
+        get('/public/javascripts/app.js').body.should.eql 'dir: javascripts path: app ext: js'
       end
     end
     

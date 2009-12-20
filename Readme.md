@@ -22,6 +22,17 @@
   * Collections and chainable iterators
   * ElementCollections / markup parsing via libxmljs and css selector traversal support via css2xpath
   * View support (ejs, haml, mustache)
+  
+## Installation
+
+Currently Express must be cloned (or downloaded), you can use the following command to
+get rolling and initialize the submodule dependencies:
+
+    $ git clone git://github.com/visionmedia/express.git && cd express && git submodule update --init && make app
+    
+Or with the [gh](http://github.com/visionmedia/gh) utility:
+
+    $ gh clone visionmedia express && cd express && git submodule update --init && make app
 
 ## Performance
 
@@ -34,7 +45,7 @@
   
   An identical Sinatra application was served with the **Thin** HTTP server
   and scored **8.3** seconds and **238** requests per second. In this situation
-  Express is currently **72%** faster than Sinatra.
+  Express is currently **3.5** times faster than Sinatra.
 
 ## Examples
 
@@ -83,7 +94,7 @@ Run individual suites:
     ...
 
 Express is currently being developed with node --version:
-    v0.1.20-1-g1107a1b
+    v0.1.21-19-g3a21e60
     
 ## License 
 

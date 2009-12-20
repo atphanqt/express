@@ -3,7 +3,7 @@ describe 'Express'
   before_each
     reset()
   end
-
+  
   describe 'status()'
     it 'should set the response status'
       get('/user', function(){ this.status(500) })
@@ -139,6 +139,13 @@ describe 'Express'
       })
       get('/user').body.should.eql 'First page'
       get('/user', { uri: { params: { page: '2' }}}).body.should.eql '2'
+    end
+    
+    it 'should work with splats'
+      get('/:path/*.*', function(path, file, ext){
+        return [path, file, ext].join(', ')
+      })
+      get('/public/app.js').body.should.eql 'public, app, js'
     end
   end
 end

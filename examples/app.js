@@ -8,15 +8,12 @@ configure(function(){
   use(ContentLength)
   use(CommonLogger)
   set('root', dirname(__filename))
-  enable('helpful 404')
-  enable('show exceptions')
   enable('cache views')
 })
 
 var messages = [],
-    path = require('path'),
-    posix = require('posix')
-
+    StaticFile = require('express/static').File
+    
 get('/', function(){
   this.redirect('/chat')
 })
@@ -30,7 +27,7 @@ get('/chat', function(){
 })
 
 post('/chat', function(){
-  messages.push(this.param('message'))
+  messages.push(escape(this.param('message')))
   this.halt(200)
 })
 
@@ -46,16 +43,8 @@ get('/chat/messages', function(){
   }, 100)
 })
 
-get('/public/:file', function(file){
-  var self = this
-  file = dirname(__filename) + '/public/' + file
-  path.exists(file, function(exists){
-    if (!exists) self.halt()
-    posix.cat(file).addCallback(function(content){
-      self.contentType(file)
-      self.halt(200, content)
-    })
-  })
+get('/public/*', function(file){
+  this.sendfile(dirname(__filename) + '/public/' + file)
 })
 
 get('/error', function(){
