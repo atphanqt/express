@@ -1,0 +1,14 @@
+%form{ method: 'post' }
+  %fieldset
+    %legend Flickr API details
+    %input{ type: 'hidden', name: '_method', value: 'post' }
+    API Key
+    %input{ type: 'text', name: 'api_key', style: 'width:300', value: api_key }
+    %br
+    Username
+    %input{ type: 'text', name: 'user_name', value: user_name }
+    %br
+    %input{ type: 'submit', value: 'Send' }
+  #scroller
+    %ul
+      %li
