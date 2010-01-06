@@ -11,4 +11,5 @@
     %input{ type: 'submit', value: 'Send' }
   #scroller
     %ul
-      %li
+      :foreach{ array : photos, value : "item" }
+        %li= item.id
