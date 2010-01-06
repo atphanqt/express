@@ -271,8 +271,8 @@ describe 'Express'
     
     describe '#keys()'
       it 'should return indices when array-like'
-        $(['foo', 'bar']).keys().at(0).should.eql 0
-        $(['foo', 'bar']).keys().at(1).should.eql 1
+        $(['foo', 'bar']).keys().at(0).should.eql '0'
+        $(['foo', 'bar']).keys().at(1).should.eql '1'
       end
       
       it 'should return keys when an object'
@@ -283,7 +283,7 @@ describe 'Express'
     
     describe '#toArray()'
       it 'should return an array'
-        $(['foo', 'bar']).keys().toArray().should.eql [0, 1]
+        $(['foo', 'bar']).keys().toArray().should.eql ['0', '1']
       end
       
       it 'should work on nested collections'
