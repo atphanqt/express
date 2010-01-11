@@ -1,15 +1,18 @@
 %form{ method: 'post' }
   %fieldset
-    %legend Flickr API details
-    %input{ type: 'hidden', name: '_method', value: 'post' }
-    API Key
-    %input{ type: 'text', name: 'api_key', style: 'width:300', value: api_key }
-    %br
-    Username
-    %input{ type: 'text', name: 'user_name', value: user_name }
-    %br
-    %input{ type: 'submit', value: 'Send' }
-  #scroller
-    %ul
-      :foreach{ array : photos, value : "item" }
-        %li= item.id
+    %legend
+    #fields
+      %input{ type: 'hidden', name: '_method', value: 'post' }
+      API Key&nbsp;&nbsp;
+      %input{ type: 'text', name: 'api_key', style: 'width:300', value: api_key }
+      %br
+      Username
+      %input{ type: 'text', name: 'user_name', value: user_name }
+    #submit
+      %input{ type: 'submit', value: 'Send' }
+#scroller
+  %ul
+    :foreach{ array : photos, value : "item" }
+      %li
+        %a.thickbox{href: item.url_m}
+          %img{ src: item.url_sq,  alt:"", width:"75", height:"75", border:"0"}

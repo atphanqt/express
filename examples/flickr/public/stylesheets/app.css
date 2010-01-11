@@ -1,0 +1,22 @@
+body {
+    background-color:black;
+    background-image:url('/public/images/1B2C31260804FEEBC7_44.png');
+}
+fieldset {
+    background-color:black;
+    color:white;
+    margin: 2px auto;
+    padding: 4px;
+}
+#scroller {
+    margin: 0 auto;
+    margin-top: 4px;
+}
+
+#submit {
+    float:right;
+    padding: 4px;
+}
+#fields {
+    padding: 4px;
+}
