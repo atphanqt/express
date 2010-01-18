@@ -7,9 +7,9 @@
 [submodule "lib/support/js-oo"]
 	path = lib/support/js-oo
 	url = git://github.com/visionmedia/js-oo.git
-[submodule "lib/support/flickr"]
-	path = lib/support/flickr
-	url = git://github.com/ciaranj/flickrnode.git
 [submodule "lib/support/sass"]
 	path = lib/support/sass
 	url = git://github.com/visionmedia/sass.js.git
+[submodule "examples/flickr/lib/flickr"]
+	path = examples/flickr/lib/flickr
+	url = git://github.com/ciaranj/flickrnode.git

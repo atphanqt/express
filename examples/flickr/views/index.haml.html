@@ -1,15 +1,19 @@
+%h1 flickr: stream
 %form{ method: 'post' }
   %fieldset
     %legend
     #fields
       %input{ type: 'hidden', name: '_method', value: 'post' }
-      API Key&nbsp;&nbsp;
-      %input{ type: 'text', name: 'api_key', style: 'width:300', value: api_key }
-      %br
-      Username
-      %input{ type: 'text', name: 'user_name', value: user_name }
-    #submit
-      %input{ type: 'submit', value: 'Send' }
+      %ol
+        %li
+          %label{ 'for': 'api_key'} API Key
+          %input{ type: 'text', name: 'api_key', value: api_key }
+        %li
+          %label{ 'for': 'user_name'}  Username
+          %input{ type: 'text', name: 'user_name', value: user_name }
+    .panel
+      %input{ type: 'submit', value: 'Fetch!' }
+%br
 #scroller
   %ul
     :foreach{ array : photos, value : "item" }
