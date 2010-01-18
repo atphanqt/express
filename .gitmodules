@@ -10,3 +10,6 @@
 [submodule "lib/support/flickr"]
 	path = lib/support/flickr
 	url = git://github.com/ciaranj/flickrnode.git
+[submodule "lib/support/sass"]
+	path = lib/support/sass
+	url = git://github.com/visionmedia/sass.js.git
