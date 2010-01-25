@@ -16,7 +16,7 @@
 %br
 #scroller
   %ul
-    :foreach{ array : photos, value : "item" }
+    :each item in photos
       %li
         %a.thickbox{href: item.url_m}
           %img{ src: item.url_sq,  alt:"", width:"75", height:"75", border:"0"}
