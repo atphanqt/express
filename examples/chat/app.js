@@ -15,11 +15,11 @@ configure(function(){
   kiwi.seed('sass')
   use(MethodOverride)
   use(ContentLength)
-  use(CommonLogger)
   use(Cookie)
   use(Cache, { lifetime: fiveMinutes, reapInterval: oneMinute })
  // use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute })
   use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute, dataStore: MongoDb})
+  use(Logger)
   set('root', __dirname)
 })
 
