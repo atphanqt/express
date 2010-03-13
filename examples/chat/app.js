@@ -2,6 +2,7 @@
 require.paths.unshift('lib')
 require('express')
 require('express/plugins')
+var MongoDb= require('express/plugins/session-mongodb').Store.MongoDb 
 
 var messages = [],
     utils = require('express/utils'),
@@ -17,7 +18,8 @@ configure(function(){
   use(CommonLogger)
   use(Cookie)
   use(Cache, { lifetime: fiveMinutes, reapInterval: oneMinute })
-  use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute })
+ // use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute })
+  use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute, dataStore: MongoDb})
   set('root', __dirname)
 })
 
