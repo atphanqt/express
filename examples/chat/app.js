@@ -9,22 +9,19 @@ var messages = [],
     kiwi = require('kiwi')
 
 configure(function(){
-  var fiveMinutes = 300000,
-      oneMinute = 60000
   kiwi.seed('haml')
   kiwi.seed('sass')
   use(MethodOverride)
   use(ContentLength)
   use(Cookie)
-  use(Cache, { lifetime: fiveMinutes, reapInterval: oneMinute })
- // use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute })
-  use(Session, { lifetime: fiveMinutes, reapInterval: oneMinute, dataStore: MongoDb})
+  use(Cache, { lifetime: (5).minutes, reapInterval: (1).minute })
+  use(Session, { lifetime: (15).minutes, reapInterval: (1).minute })
   use(Logger)
   set('root', __dirname)
 })
 
 get('/', function(){
-  this.redirect('/chat')
+  this.pass('/chat')
 })
 
 get('/chat', function(){

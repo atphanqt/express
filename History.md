@@ -1,4 +1,23 @@
 
+0.7.2 / 2010-03-16
+==================
+
+  * Fixed GIT submodules (HAH!)
+
+0.7.1 / 2010-03-16
+==================
+
+  * Changed; Express now using submodules again until a PM is adopted
+  * Changed; chat example using millisecond conversions from ext
+
+0.7.0 / 2010-03-15
+==================
+
+  * Added Request#pass() support (finds the next matching route, or the given path)
+  * Added Logger plugin (default "common" format replaces CommonLogger)
+  * Removed Profiler plugin
+  * Removed CommonLogger plugin
+
 0.6.0 / 2010-03-11
 ==================
 

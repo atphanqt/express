@@ -28,6 +28,12 @@
   and run:
   
       $ kiwi -v install express
+      
+or
+
+  Install via git clone:
+  
+      $ git://github.com/visionmedia/express.git && cd express && git submodule update --init
 
 ## Performance
 
@@ -40,12 +46,20 @@
 
 Below is a tiny Express application. View the [Wiki](http://wiki.github.com/visionmedia/express/) for detailed information.
 
-    var kiwi = require('kiwi'),
-       express = kiwi.require('express')
-
-    get('/hello-world', function(){
-      this.contentType('html')
-      return '<h1>Hello World</h1>'
+    require.paths.unshift('express/lib')
+    require('express')
+    
+    get('/user', function(){
+      this.redirect('/user/' + this.currentUser.id)
+    })
+    
+    get('/user/:id', function(id){
+      this.render('user.haml.html', {
+        locals: {
+          user: this.currentUser,
+          usersOnline: Session.store.length()
+        }
+      })
     })
 
     run()
@@ -66,7 +80,7 @@ Run individual suites:
     ...
     
 Express is currently being developed with node --version:
-    v0.1.31
+    v0.1.32
     
 ## More Information
 
