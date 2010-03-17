@@ -4,6 +4,7 @@ describe 'Express'
     reset()
     use(require('express/plugins/cookie').Cookie)
     use(Session = require('express/plugins/session').Session)
+    Base = require('express/plugins/session').Base
     Session.store.clear()
   end
   
@@ -14,17 +15,20 @@ describe 'Express'
         get('/login').headers['set-cookie'].should.match(/^sid=(\w+);/)
       end
     end
-    
-    describe 'when sid cookie is present'
+
+    describe 'when existing sid cookie is present'
       it 'should not set sid'
+        var sess= new Base(123);
+        sess.same= true;
+        Session.store.commit(sess, function(){})
         get('/login', function(){ return '' })
         get('/login', { headers: { cookie: 'sid=123' }}).headers.should.not.have_property 'set-cookie'
       end
-    end
-  
+    end    
+
     describe 'session Store.Memory'
       before_each
-        memory = new (require('express/plugins/session').Store.Memory)
+        Session.store= memory = new (require('express/plugins/session').Store.Memory)
       end
       
       it 'should persist'
@@ -34,6 +38,9 @@ describe 'Express'
         get('/login', function(){
           return this.session.name
         })
+        var sess= new Base(123);
+        sess.same= true;
+        memory.commit(sess, function(){})
         var headers = { headers: { cookie: 'sid=123' }}
         post('/login', headers)
         get('/login', headers).status.should.eql 200
@@ -49,22 +56,32 @@ describe 'Express'
       describe '#fetch()'
         describe 'when the session does not exist'
           it 'should return a new Session'
-            memory.fetch('1').should.have_property 'lastAccess'
+           var result
+            memory.fetch('1', function(error,session){
+              result= session
+            })
+            result.should.have_property 'lastAccess'
           end
         end
         
         describe 'when the session does exist'
           it 'should return the previous session'
-            memory.commit({ id: '1', same: true })
-            memory.fetch('1').should.have_property 'same', true
+            var result
+            var sess= new Base(1);
+            sess.same= true;
+            memory.commit(sess, function(){})
+            memory.fetch('1', function(error, session){
+              result= session
+            })
+            result.should.have_property 'same', true
           end
         end
       end
       
       describe '#clear()'
         it 'should remove all sessions'
-          memory.commit({ id: '1' })
-          memory.commit({ id: '2' })
+          memory.commit({ id: '1' }, function(){})
+          memory.commit({ id: '2' }, function(){})
           memory.clear()
           memory.should.not.have_property '1'
           memory.should.not.have_property '2'
@@ -73,17 +90,21 @@ describe 'Express'
       
       describe '#length()'
         it 'should return the number of session'
-          memory.commit({ id: '1' })
-          memory.commit({ id: '2' })
-          memory.length().should.eql 2
+          var len
+          memory.commit({ id: '1' }, function(){})
+          memory.commit({ id: '2' }, function(){})
+          memory.length(function(error, l) {
+                 len= l
+          })
+          len.should.eql 2
         end
       end
       
       describe '#destroy()'
         it 'should destroy a single session'
-          memory.commit({ id: '1' })
-          memory.commit({ id: '2' })
-          memory.destroy('1')
+          memory.commit({ id: '1' }, function(){})
+          memory.commit({ id: '2' }, function(){})
+          memory.destroy('1', function(){})
           memory.store.should.not.have_property '1'
           memory.store.should.have_property '2'
         end
@@ -91,11 +112,11 @@ describe 'Express'
       
       describe '#reap()'
         it 'should destroy sessions older than the given age in milliseconds'
-          memory.commit({ id: '1', lastAccess: Number(new Date) - 300 })
-          memory.commit({ id: '2', lastAccess: Number(new Date) - 250 })
-          memory.commit({ id: '3', lastAccess: Number(new Date) - 100 })
-          memory.commit({ id: '4', lastAccess: Number(new Date) })
-          memory.reap(200)
+          memory.commit({ id: '1', lastAccess: Number(new Date) - 300 }, function(){})
+          memory.commit({ id: '2', lastAccess: Number(new Date) - 250 }, function(){})
+          memory.commit({ id: '3', lastAccess: Number(new Date) - 100 }, function(){})
+          memory.commit({ id: '4', lastAccess: Number(new Date) }, function(){})
+          memory.reap(200, function(){})
           memory.store.should.not.have_property '1'
           memory.store.should.not.have_property '2'
           memory.store.should.have_property '3'

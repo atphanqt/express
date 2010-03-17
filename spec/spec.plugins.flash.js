@@ -12,6 +12,10 @@ describe 'Express'
     describe 'flash()'
       it 'should push a flash message'
         var headers = { headers: { cookie: 'sid=123' }}
+        var sess= new Base(123);
+        sess.same= true;
+        Session.store.commit(sess, function(){})
+
         post('/', function(){ return this.flash('info', 'email sent') })
         get('/', function(){ return this.flash('info', 'email received') })
         get('/info', function(){ return this.flash('info').join(', ') })
