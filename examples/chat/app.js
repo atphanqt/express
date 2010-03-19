@@ -5,17 +5,15 @@ require('express/plugins')
 var MongoDb= require('express/plugins/session-mongodb').Store.MongoDb 
 
 var messages = [],
-    utils = require('express/utils'),
-    kiwi = require('kiwi')
-
+    utils = require('express/utils')
+    
 configure(function(){
-  kiwi.seed('haml')
-  kiwi.seed('sass')
   use(MethodOverride)
   use(ContentLength)
   use(Cookie)
   use(Cache, { lifetime: (5).minutes, reapInterval: (1).minute })
   use(Session, { lifetime: (15).minutes, reapInterval: (1).minute })
+  use(Static)
   use(Logger)
   set('root', __dirname)
 })
@@ -57,10 +55,6 @@ get('/chat/messages', function(){
       self.halt(200, JSON.encode(messages)),
       clearInterval(timer)
   }, 100)
-})
-
-get('/public/*', function(file){
-  this.sendfile(__dirname + '/public/' + file)
 })
 
 get('/*.css', function(file){

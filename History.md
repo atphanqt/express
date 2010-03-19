@@ -1,4 +1,22 @@
 
+0.7.5 / 2010-03-16
+==================
+
+  * Added Request#flash() support without args, now returns all flashes
+  * Updated ext submodule
+
+0.7.4 / 2010-03-16
+==================
+
+  * Fixed session reaper
+  * Changed; class.js replacing js-oo Class implementation (quite a bit faster, no browser cruft)
+
+0.7.3 / 2010-03-16
+==================
+
+  * Added package.json
+  * Fixed requiring of haml / sass due to kiwi removal
+
 0.7.2 / 2010-03-16
 ==================
 

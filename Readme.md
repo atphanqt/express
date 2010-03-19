@@ -12,14 +12,19 @@
   * Sexy DSL with robust sinatra-like routing
   * High performance
   * Session support
+  * Cache API
+  * RESTful HTTP client
   * Mime helpers
   * Redirection helpers
   * Multipart file upload support
   * Test helpers (mock requests etc)
   * Environment based configuration
-  * Light-weight JavaScript class implementation via js-oo
+  * Light-weight JavaScript class implementation via [class.js](http://github.com/visionmedia/class.js/)
+  * Persistent flash messages
+  * Route passing
   * View support (ejs, haml, sass, etc)
   * Full test coverage
+  * Logger plugin with several formats
   * Extremely readable specs
   
 ## Installation
@@ -33,7 +38,7 @@ or
 
   Install via git clone:
   
-      $ git://github.com/visionmedia/express.git && cd express && git submodule update --init
+      $ git clone git://github.com/visionmedia/express.git && cd express && git submodule update --init
 
 ## Performance
 
