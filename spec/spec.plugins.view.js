@@ -47,6 +47,17 @@ describe 'Express'
           get('/').body.should.include '<li>im a movie'
           get('/').body.should.include '<li>im another movie'
         end
+       
+        it 'should render collections with a given object name and a counter'
+          get('/', function(){
+            return this.partial('countingvideo.haml.html', {
+              collection: ['im a movie', 'im another movie'],
+              as: 'vid'
+            })
+          })
+          get('/').body.should.include "<li><span>im a movie\n</span><span>1"
+          get('/').body.should.include "<li><span>im another movie\n</span><span>2"
+        end
       end
     end
     
